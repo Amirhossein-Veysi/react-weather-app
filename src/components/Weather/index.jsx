@@ -10,6 +10,11 @@ const Weather = () => {
   const [home, setHome] = useState("");
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
+  const [background, setBackground] = useState(
+    `url('https://source.unsplash.com/1600x900/?${result?.name} ${
+      result ? (result.weather[0].icon.includes("d") ? "Day" : "Night") : ""
+    }`
+  );
 
   useEffect(() => {
     fetch("https://ipinfo.io?token=bf002711d48d64")
@@ -39,6 +44,11 @@ const Weather = () => {
               res.precipitation = res2.list[res2.list.length - 1].pop;
               setResult(res);
               setLoading(false);
+              setBackground(
+                `url('https://source.unsplash.com/1600x900/?${res?.name} ${
+                  res.weather[0].icon.includes("d") ? "Day" : "Night"
+                }`
+              );
             });
         });
     }
@@ -67,6 +77,12 @@ const Weather = () => {
             homeClick={handleHomeClick}
             formSubmit={handleFormSubmit}
           />
+          <div
+            className="background"
+            style={{
+              backgroundImage: background,
+            }}
+          ></div>
           {loading ? (
             <p className="h4 text-center text-white">Loading...</p>
           ) : (
