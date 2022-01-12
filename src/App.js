@@ -1,7 +1,10 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import Weather from "./components/Weather";
+
 function App() {
   return (
     <div className="App">
-      <p>The first view (dependencies are installed)</p>
+      <Weather />
     </div>
   );
 }
