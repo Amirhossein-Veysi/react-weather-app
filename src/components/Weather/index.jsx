@@ -8,6 +8,7 @@ import WeatherInfo from "../WeatherInfo";
 const Weather = () => {
   const [city, setCity] = useState("");
   const [home, setHome] = useState("");
+  const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
 
   useEffect(() => {
@@ -37,16 +38,19 @@ const Weather = () => {
             .then((res2) => {
               res.precipitation = res2.list[res2.list.length - 1].pop;
               setResult(res);
+              setLoading(false);
             });
         });
     }
   }, [city]);
 
   const handleHomeClick = () => {
+    setLoading(true);
     setCity(home);
   };
 
   const handleFormSubmit = (iCity) => {
+    setLoading(true);
     setCity(iCity);
   };
 
@@ -63,7 +67,7 @@ const Weather = () => {
             homeClick={handleHomeClick}
             formSubmit={handleFormSubmit}
           />
-          {!result ? (
+          {loading ? (
             <p className="h4 text-center text-white">Loading...</p>
           ) : (
             <WeatherInfo result={result} />
