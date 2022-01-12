@@ -61,7 +61,7 @@ const Weather = () => {
           xs={{ span: 10, offset: 1 }}
           md={{ span: 8, offset: 2 }}
           lg={{ span: 6, offset: 3 }}
-          className="weather mt-5 p-5"
+          className="weather mt-5 p-5 rounded-3 shadow"
         >
           <WeatherForm
             homeClick={handleHomeClick}
