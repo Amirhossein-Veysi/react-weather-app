@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import WeatherForm from "../Form";
+import WeatherInfo from "../WeatherInfo";
 
 const Weather = () => {
   const [city, setCity] = useState("");
@@ -23,13 +24,22 @@ const Weather = () => {
   }, [home]);
 
   useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setResult(res);
-      });
+    if (city !== "") {
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.REACT_APP_API_KEY}`
+          )
+            .then((res2) => res2.json())
+            .then((res2) => {
+              res.precipitation = res2.list[res2.list.length - 1].pop;
+              setResult(res);
+            });
+        });
+    }
   }, [city]);
 
   const handleHomeClick = () => {
@@ -49,12 +59,15 @@ const Weather = () => {
           lg={{ span: 6, offset: 3 }}
           className="weather mt-5 p-5"
         >
-          <p className="h3 text-center text-white">Weather in {city}</p>
           <WeatherForm
             homeClick={handleHomeClick}
             formChange={handleFormChange}
           />
-          {console.log(result)}
+          {!result ? (
+            <p className="h4 text-center text-white">Loading...</p>
+          ) : (
+            <WeatherInfo result={result} />
+          )}
         </Col>
       </Row>
     </Container>
