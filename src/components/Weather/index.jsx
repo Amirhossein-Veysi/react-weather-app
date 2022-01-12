@@ -46,8 +46,8 @@ const Weather = () => {
     setCity(home);
   };
 
-  const handleFormChange = (e) => {
-    setCity(e.currentTarget.value);
+  const handleFormSubmit = (iCity) => {
+    setCity(iCity);
   };
 
   return (
@@ -61,7 +61,7 @@ const Weather = () => {
         >
           <WeatherForm
             homeClick={handleHomeClick}
-            formChange={handleFormChange}
+            formSubmit={handleFormSubmit}
           />
           {!result ? (
             <p className="h4 text-center text-white">Loading...</p>
